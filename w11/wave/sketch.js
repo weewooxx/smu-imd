@@ -32,7 +32,7 @@ function draw() {
 function mousePressed() {
   t2 = t + 0.2;
 }
-  t = 
+
 // const barWidth = 20;
 // let lastBar = -1;
 
