@@ -10,9 +10,10 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(10, 20, 30);
   //how you're drawing your pose
   ellipse(mouseX, mouseY, 50, 50);
+  fill(mouseX / 3.9, mouseY / 2.7, height / 2.7);
 
   //how you're storing the last 50 poses
   mousePositions.push({ x: mouseX, y: mouseY });
