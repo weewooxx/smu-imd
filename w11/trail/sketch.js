@@ -28,10 +28,3 @@ function draw() {
     ellipse(mousePositions[i].x, mousePositions[i].y, i, i);
   }
 }
-
-function mousePressed() {
-  ratio.add(velocity);
-  if (mouseButton === LEFT) {
-    velocity = ratio * 10;
-  }
-}
