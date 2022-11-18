@@ -1,14 +1,23 @@
 let Engine = Matter.Engine,
+  Events = Matter.Events,
   Render = Matter.Render,
   Composites = Matter.Composites,
   Constraint = Matter.Constraint,
   MouseConstraint = Matter.MouseConstraint,
   Mouse = Matter.Mouse,
   Composite = Matter.Composite,
-  Bodies = Matter.Bodies;
+  Bodies = Matter.Bodies,
+  Vector = Matter.Vector;
 
 // create engine
 let engine;
+
+let render = Render.create({
+  engine: engine,
+  options: {
+    wireframes: false,
+  },
+});
 
 // add mouse control
 let mouse;
@@ -45,6 +54,7 @@ function setup() {
     dom.getBoundingClientRect().width,
     dom.getBoundingClientRect().height
   );
+
   canvas.parent("sketch");
   engine = Engine.create();
   world = engine.world;
@@ -123,6 +133,36 @@ function setup() {
 
   Composite.add(world, mouseConstraint);
 }
+
+let trail = [];
+
+Events.on(render, "afterRender", function () {
+  trail.unshift({
+    position: Vector.clone(body1.position),
+    speed: body1.speed,
+  });
+
+  Render.startViewTransform(render);
+  render.context.globalAlpha = 0.7;
+
+  for (let i = 0; i < trail.length; i += 1) {
+    let point = trail[i].position,
+      speed = trail[i].speed;
+
+    var hue = 250 + Math.round((1 - Math.min(1, speed / 10)) * 170);
+    render.context.fillStyle = "hsl(" + hue + ", 100%, 55%)";
+    render.context.fillRect(point.x, point.y, 2, 2);
+
+    render.context.globalAlpha = 1;
+    Render.endViewTransform(render);
+
+    if (trail.length > 2000) {
+      trail.pop();
+    }
+  }
+});
+
+render.mouse = mouse;
 
 function draw() {
   background(255);
