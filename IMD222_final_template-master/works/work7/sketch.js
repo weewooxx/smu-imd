@@ -1,4 +1,42 @@
-let drawMode = 1;
+class Particle {
+  // 파티클의 좌표값, 반경, 그리고 속도를
+  // 두 좌표축에 의거하여 설정합니다.
+  constructor() {
+    this.x = random(0, width);
+    this.y = random(0, height);
+    this.r = random(1, 20);
+    this.xSpeed = random(-2, 2);
+    this.ySpeed = random(-1, 1.5);
+  }
+
+  // 파티클 생성하기
+  createParticle() {
+    noStroke();
+    fill(random(255), random(255), random(255));
+    circle(this.x, this.y, this.r);
+  }
+
+  // 파티클이 움직이도록 설정하기
+  moveParticle() {
+    if (this.x < 0 || this.x > width) this.xSpeed *= -1;
+    if (this.y < 0 || this.y > height) this.ySpeed *= -1;
+    this.x += this.xSpeed;
+    this.y += this.ySpeed;
+  }
+
+  joinParticles(paraticles) {
+    particles.forEach((element) => {
+      let dis = dist(this.x, this.y, element.x, element.y);
+      if (dis < 85) {
+        stroke(random(255), random(255), random(255));
+        line(this.x, this.y, element.x, element.y);
+      }
+    });
+  }
+}
+
+// 복수의 파티클들을 추가하기 위한 배열
+let particles = [];
 
 function setup() {
   let boundingRects = document
@@ -6,48 +44,16 @@ function setup() {
     .getBoundingClientRect();
   let canvas = createCanvas(boundingRects.width, boundingRects.height);
   canvas.parent("p5Canvas");
-  noFill();
-}
-
-function draw() {
-  background(255);
-
-  translate(width / 2, height / 2);
-
-  // first shape (fixed)
-  strokeWeight(3);
-  overlay();
-
-  // second shape (dynamically translated/rotated and scaled)
-  let x = map(mouseX, 0, width, -50, 50);
-  let a = map(mouseX, 0, width, -1, 0.5);
-  let s = map(mouseY, 0, height, 0.7, 1);
-
-  if (drawMode == 1) rotate(a);
-  if (drawMode == 2) translate(x, 0);
-  scale(s);
-
-  strokeWeight(2);
-  overlay();
-}
-
-function overlay() {
-  let w = width - 100;
-  let h = height - 100;
-
-  if (drawMode == 1) {
-    for (let i = -w / 2; i < w / 2; i += 5) {
-      line(i, -h / 2, i, h / 2);
-    }
-  } else if (drawMode == 2) {
-    for (let i = 0; i < w; i += 10) {
-      ellipse(0, 0, i);
-    }
+  for (let i = 0; i < width / 10; i++) {
+    particles.push(new Particle());
   }
 }
 
-function mousePressed() {
-  // change draw mode
-  if (mouseButton === LEFT) drawMode = 1;
-  if (mouseButton === CENTER) drawMode = 2;
+function draw() {
+  background("#0f0f0f");
+  for (let i = 0; i < particles.length; i++) {
+    particles[i].createParticle();
+    particles[i].moveParticle();
+    particles[i].joinParticles(particles.slice(i));
+  }
 }

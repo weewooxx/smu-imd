@@ -20,7 +20,7 @@ function draw() {
   noiseMult = map(mouseX, 0, width, 0, 0.1);
   noiseSeed(seedNum);
   noStroke();
-  fill(255);
+  fill(0);
   rect(0, 0, width, height);
   let tileWidth = width / (howManyX + 1);
   let tileHeight = height / (howManyY + 1);
@@ -38,7 +38,7 @@ function draw() {
       // rotate(randAngle);
       rotate(noiseAngle);
       noFill();
-      stroke(noiseColor, 100, 100);
+      stroke(noiseColor, random(255), random(255));
       strokeWeight(10);
       line(0 - tileWidth * 0.5 + 5, 0, 0 + tileWidth * 0.5 - 5, 0);
       // fill(255, 0, 0);

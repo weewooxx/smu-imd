@@ -15,7 +15,7 @@ function setup() {
 
 function draw() {
   background(0);
-  fill(200, 100, 200);
+  fill(random(255), random(255), random(255));
   let numPoints = int(map(mouseX, 0, width, 6, 60));
   let angle = 0;
   let angleStep = 180.0 / numPoints;
