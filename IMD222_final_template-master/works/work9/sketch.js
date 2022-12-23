@@ -14,34 +14,27 @@ function setup() {
   angleMode(DEGREES);
   background(0);
 
-  // 파일 저장을 위한 saveButton 생성하기
   saveButton = createButton("save");
   saveButton.mousePressed(saveFile);
 
-  // 화면 지우기를 위한 claerButton 생성하기
   clearButton = createButton("clear");
   clearButton.mousePressed(clearScreen);
 
-  // 전체 화면 보기를 위한 fullscreenButton 생성하기
   fullscreenButton = createButton("Full Screen");
   fullscreenButton.mousePressed(screenFull);
 
-  // 브러시 두께 조정을 위한 슬라이더 설정하기
   brushSizeSlider = createButton("Brush Size Slider");
   sizeSlider = createSlider(1, 32, 4, 0.1);
 }
 
-// 파일 저장 함수
 function saveFile() {
   save("design.jpg");
 }
 
-// 화면 지우기 함수
 function clearScreen() {
   background(0);
 }
 
-// 전체 화면 보기 함수
 function screenFull() {
   let fs = fullscreen();
   fullscreen(!fs);

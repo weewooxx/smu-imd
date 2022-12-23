@@ -17,7 +17,6 @@ function draw() {
   randomSeed(actRandomSeed);
   let angle = radians(360 / count);
   for (let i = 0; i < count; i++) {
-    // positions
     var randomX = random(0, width);
     var randomY = random(0, height);
     var circleX = width / 2 + cos(angle * i) * 300;
